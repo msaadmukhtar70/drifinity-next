@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Logo from "./Logo";
 import { gtmPillar, gtmIndustries } from "@/lib/content/gtm";
 import { automationPillar, automationIndustries } from "@/lib/content/automation";
@@ -15,6 +15,16 @@ export default function Header() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
+  const closeMenuTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openDesktopMenu = (href: string) => {
+    if (closeMenuTimer.current) clearTimeout(closeMenuTimer.current);
+    setOpenMenu(href);
+  };
+
+  const closeDesktopMenuWithDelay = () => {
+    closeMenuTimer.current = setTimeout(() => setOpenMenu(null), 300);
+  };
 
   return (
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5">
@@ -26,9 +36,9 @@ export default function Header() {
             <div
               key={pillar.href}
               className="relative"
-              onMouseEnter={() => setOpenMenu(pillar.href)}
-              onMouseLeave={() => setOpenMenu(null)}
-              onFocus={() => setOpenMenu(pillar.href)}
+              onMouseEnter={() => openDesktopMenu(pillar.href)}
+              onMouseLeave={closeDesktopMenuWithDelay}
+              onFocus={() => openDesktopMenu(pillar.href)}
               onBlur={(event) => {
                 if (!event.currentTarget.contains(event.relatedTarget)) setOpenMenu(null);
               }}
