@@ -43,22 +43,24 @@ export default function Header() {
                 </span>
               </Link>
               {openMenu === pillar.href && (
-                <div className="glass-strong absolute left-0 top-[calc(100%+.75rem)] w-72 overflow-hidden rounded-2xl p-2">
-                  <Link
-                    href={pillar.href}
-                    className="block rounded-xl px-4 py-3 text-xs font-semibold uppercase tracking-[.1em] text-red hover:bg-red/10"
-                  >
-                    {pillar.name} Overview
-                  </Link>
-                  {industries.map((industry) => (
+                <div className="absolute left-0 top-full w-72 pt-3">
+                  <div className="glass-strong overflow-hidden rounded-2xl p-2">
                     <Link
-                      key={industry.slug}
-                      href={`${pillar.href}/${industry.slug}`}
-                      className="block rounded-xl px-4 py-2.5 text-sm text-cream/65 hover:bg-white/6 hover:text-cream"
+                      href={pillar.href}
+                      className="block rounded-xl px-4 py-3 text-xs font-semibold uppercase tracking-[.1em] text-red hover:bg-red/10"
                     >
-                      {industry.name}
+                      {pillar.name} Overview
                     </Link>
-                  ))}
+                    {industries.map((industry) => (
+                      <Link
+                        key={industry.slug}
+                        href={`${pillar.href}/${industry.slug}`}
+                        className="block rounded-xl px-4 py-2.5 text-sm text-cream/65 hover:bg-white/6 hover:text-cream"
+                      >
+                        {industry.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
