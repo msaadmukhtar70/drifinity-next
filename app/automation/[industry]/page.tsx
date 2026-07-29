@@ -20,8 +20,8 @@ export async function generateMetadata({
   const industry = getIndustry(slug);
   if (!industry) return {};
   return {
-    title: `Automation for ${industry.name}`,
-    description: industry.dek,
+    title: { absolute: industry.metaTitle },
+    description: industry.metaDescription,
   };
 }
 

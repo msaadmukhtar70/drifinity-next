@@ -22,15 +22,14 @@ export default function IndustryPageTemplate({
         eyebrow={`${pillarLabel} — ${industry.name}`}
         title={industry.headline}
         subtitle={industry.dek}
-        primaryCta={{ label: "Book Your Diagnostic", href: "/contact" }}
+        primaryCta={{ label: "Book Your Audit", href: "/contact" }}
         secondaryCta={{ label: `${pillarName} Overview`, href: pillarHref }}
       />
 
       <section className="section-pad mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeading
-          eyebrow="Common Signals"
-          title="Where the system usually starts to leak."
-          description="One symptom is inconvenient. Several together point to a structural problem worth measuring."
+          eyebrow="What We See"
+          title="Where this usually breaks down"
         />
         <ul className="mt-10 grid gap-5 sm:grid-cols-2">
           {industry.painPoints.map((point, i) => (
@@ -45,9 +44,8 @@ export default function IndustryPageTemplate({
       <section className="section-pad border-y border-white/7 bg-white/[0.018]">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionHeading
-            eyebrow="The Path Forward"
-            title="Diagnose the constraint. Build the right system."
-            description="The work is specific to your environment and the evidence we uncover — never a generic package forced onto the problem."
+            eyebrow="How We Fix It"
+            title="Audit. Implementation. Optional retainer."
           />
           <div className="mt-10">
             <ProcessSteps steps={industry.approach.map((a, i) => ({
@@ -72,9 +70,11 @@ export default function IndustryPageTemplate({
       </section>
 
       <CTABand
-        title={`See what the hidden gaps in ${industry.name.toLowerCase()} are really costing.`}
-        subtitle="Start with a low-cost, no-obligation diagnostic. Get real numbers and a clear action plan before any bigger commitment."
-        ctaLabel="Measure the Opportunity"
+        title={
+          industry.ctaTitle ??
+          `Ready to see where ${industry.name.toLowerCase()} gaps are costing you?`
+        }
+        subtitle="Start with a low-cost, no-obligation audit. Real numbers before any bigger commitment."
       />
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10">

@@ -7,27 +7,30 @@ import CTABand from "@/components/CTABand";
 import { gtmPillar, gtmIndustries } from "@/lib/content/gtm";
 
 export const metadata: Metadata = {
-  title: "GTM",
-  description: gtmPillar.summary,
+  title: {
+    absolute: "GTM Services for Startups, Agencies & More — Drifinity",
+  },
+  description:
+    "Stop relying on referrals. Drifinity builds repeatable GTM systems — positioning, pipeline, and outbound — for startups, agencies, and more.",
 };
 
 export default function GTMHub() {
   return (
     <>
       <Hero
-        eyebrow="Go-To-Market Systems"
-        title="Turn unpredictable growth into a repeatable system."
-        subtitle="We sharpen the offer, clarify why buyers should care, and build the pipeline mechanics that keep qualified conversations moving — without depending on referrals or founder hustle."
-        primaryCta={{ label: "Diagnose Your Pipeline", href: "/contact" }}
+        eyebrow="GTM"
+        title="Fix the offer, the positioning, and the pipeline."
+        subtitle={gtmPillar.summary}
+        primaryCta={{ label: "Book Your Audit", href: "/contact" }}
         secondaryCta={{ label: "See Who We Help", href: "#industries" }}
       />
 
       <section className="section-pad mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <SectionHeading
-            eyebrow="The Real Constraint"
-            title="Momentum is not the same as a growth system."
-            description="Referrals, founder relationships, and occasional campaigns can create traction. They cannot create predictability. When every sale needs a heroic push, the business has demand — but no dependable way to convert it."
+            eyebrow="The Problem"
+            title="Growth that depends on referrals or founder hustle isn't a system"
+            description="It's momentum. Momentum runs out. We replace it with an offer people say yes to and a pipeline that keeps producing whether or not anyone's personally pushing it this week."
           />
           <div className="glass-card reveal p-7 sm:p-8">
             <p className="text-xs font-bold uppercase tracking-[.15em] text-red">The audit answers</p>
@@ -41,9 +44,8 @@ export default function GTMHub() {
       <section className="section-pad border-y border-white/7 bg-white/[0.018]">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionHeading
-            eyebrow="The Engagement"
-            title="Diagnose it. Build it. Improve it."
-            description="No pre-packaged campaign. The implementation is scoped around what your actual pipeline data reveals."
+            eyebrow="How It Works"
+            title="Audit. Implementation. Optional retainer."
           />
           <div className="mt-12">
             <ProcessSteps inverted />
@@ -52,7 +54,7 @@ export default function GTMHub() {
       </section>
 
       <section id="industries" className="section-pad mx-auto max-w-7xl scroll-mt-28 px-6 lg:px-10">
-        <SectionHeading eyebrow="Where We Specialise" title="GTM designed around how you sell." description="Different buying journeys break in different places. Choose the model closest to yours." />
+        <SectionHeading eyebrow="Who We Work With" title="Built for how you sell" />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {gtmIndustries.map((industry) => (
             <IndustryCard
@@ -66,9 +68,9 @@ export default function GTMHub() {
       </section>
 
       <CTABand
-        title="Not sure whether growth or operations is the real constraint?"
-        subtitle="That is exactly what the diagnostic separates. Start there and we will show you the highest-value problem to solve first."
-        ctaLabel="Find the Constraint"
+        title="Not sure if it's a GTM problem or an operations problem?"
+        subtitle="That's exactly what the audit is for. Start there and we'll tell you straight."
+        ctaLabel="Book Your Audit"
       />
     </>
   );

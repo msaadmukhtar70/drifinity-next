@@ -13,10 +13,12 @@ export default function Footer() {
           <div>
             <Logo inverted />
             <p className="mt-5 max-w-xs text-sm leading-6 text-cream/48">
-              Diagnose the revenue leak. Build the right fix. Grow with a system that holds up under pressure.
+              One brand, two ways in: fix how you grow, or fix how you run.
+              Start with a low-cost audit — real numbers before any bigger
+              commitment.
             </p>
             <Link href="/contact" className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.1em] text-red hover:text-red-bright">
-              Start with the audit <span aria-hidden>↗</span>
+              Book Your Audit <span aria-hidden>↗</span>
             </Link>
           </div>
 
@@ -43,9 +45,9 @@ export default function Footer() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[.15em] text-red">Company</p>
             <ul className="mt-5 space-y-3">
-              <li><Link href="/about" className={linkClass}>About Drifinity</Link></li>
-              <li><Link href="/contact" className={linkClass}>Book an audit</Link></li>
-              <li><a href="mailto:hello@drifinity.com" className={linkClass}>hello@drifinity.com</a></li>
+              <li><Link href="/about" className={linkClass}>About</Link></li>
+              <li><Link href="/contact" className={linkClass}>Contact</Link></li>
+              <li><a href="mailto:contact@drifinity.com" className={linkClass}>contact@drifinity.com</a></li>
             </ul>
           </div>
         </div>

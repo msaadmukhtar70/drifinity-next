@@ -10,23 +10,27 @@ import { automationPillar, automationIndustries } from "@/lib/content/automation
 const differentiators = [
   {
     number: "01",
-    title: "Evidence before recommendations",
-    description: "We diagnose the gap, quantify its cost, and show you the business case before asking you to commit to implementation.",
+    title: "Diagnostic-first, not pitch-first",
+    description:
+      "Every engagement starts with a low-cost, no-obligation audit — real numbers on where the gap is and what it's worth, before any bigger commitment.",
   },
   {
     number: "02",
-    title: "Built by operators",
-    description: "The systems come from real growth and operations experience — designed for the messiness of an actual working business.",
+    title: "Built on real operator experience",
+    description:
+      "Not agency theory. The fixes we build come from having run growth and operations ourselves, not just consulted on them.",
   },
   {
     number: "03",
-    title: "Works with your existing stack",
-    description: "We improve the tools and workflows you already use, avoiding another platform your team has to learn and maintain.",
+    title: "No new software required",
+    description:
+      "Automation is built into what you already use. Your team doesn't have to learn another platform to get the benefit.",
   },
   {
     number: "04",
-    title: "Designed to outlast the engagement",
-    description: "The system belongs to you. Ongoing support is available, but dependency is never built into the solution.",
+    title: "One brand, two clear entry points",
+    description:
+      "Instead of a vague 'we do everything' pitch, you pick the lane that matches your gap: growth or operations.",
   },
 ];
 
@@ -34,11 +38,11 @@ export default function Home() {
   return (
     <>
       <Hero
-        eyebrow="Growth + Operations Intelligence"
-        title="Find the leak. Build the fix. Grow without the guesswork."
-        subtitle="Drifinity diagnoses what is blocking growth or draining capacity, puts a real number on the problem, and builds the system that solves it. No vague proposal. No unnecessary software."
-        primaryCta={{ label: "Book Your Diagnostic", href: "/contact" }}
-        secondaryCta={{ label: "Explore the Process", href: "#process" }}
+        eyebrow="Drifinity"
+        title="We find the gap between growing and running well. Then we close it."
+        subtitle="One brand, two ways in. Fix how you grow with GTM, or fix how you run with Automation. Every engagement starts with a low-cost audit that puts real numbers on the gap before you commit to anything bigger."
+        primaryCta={{ label: "Book Your Audit", href: "/contact" }}
+        secondaryCta={{ label: "See How We Work", href: "/about" }}
       />
 
       <section className="border-y border-white/7 bg-white/[0.018]">
@@ -68,14 +72,14 @@ export default function Home() {
       <section className="section-pad relative border-y border-white/7 bg-white/[0.018]">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionHeading
-            eyebrow="Two Focused Systems"
-            title="Fix demand, delivery — or both."
-            description="Each path solves a different constraint. Together, they create a business that can win new work and handle it without adding operational drag."
+            eyebrow="Two Pillars"
+            title="Pick the lane that matches your gap"
+            description="Some businesses need to grow. Some need to run leaner. Some need both — and that's fine, because it's one brand either way."
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             {[
-              { pillar: gtmPillar, industries: gtmIndustries, label: "01 / Demand System", href: "/gtm", cta: "Explore GTM" },
-              { pillar: automationPillar, industries: automationIndustries, label: "02 / Delivery System", href: "/automation", cta: "Explore Automation" },
+              { pillar: gtmPillar, industries: gtmIndustries, label: "GTM", href: "/gtm", cta: "Explore GTM" },
+              { pillar: automationPillar, industries: automationIndustries, label: "Automation", href: "/automation", cta: "Explore Automation" },
             ].map(({ pillar, industries, label, href, cta }) => (
               <article key={href} className="glass-card reveal group flex min-h-[520px] flex-col justify-between p-7 sm:p-10">
                 <div>
@@ -104,16 +108,16 @@ export default function Home() {
 
       <section id="process" className="section-pad mx-auto max-w-7xl scroll-mt-28 px-6 lg:px-10">
         <SectionHeading
-          eyebrow="A Lower-Risk Way to Fix It"
-          title="Clarity first. Commitment second."
-          description="Every engagement follows the same logic: establish the facts, build only what the facts justify, then improve it against real-world results."
+          eyebrow="How It Works"
+          title="Audit. Implementation. Optional retainer."
+          description="No engagement starts with a proposal. It starts with a diagnostic — so the first thing you get from us is clarity, not a sales deck."
         />
         <div className="mt-12"><ProcessSteps /></div>
       </section>
 
       <section className="section-pad border-y border-white/7 bg-white/[0.018]">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <SectionHeading eyebrow="Why Drifinity" title="Built for decisions, not dependency." />
+          <SectionHeading eyebrow="Why Drifinity" title="What makes this different" />
           <div className="mt-12 grid gap-5 sm:grid-cols-2">
             {differentiators.map((item) => (
               <div key={item.number} className="glass-card reveal p-7 sm:p-8">
@@ -131,10 +135,10 @@ export default function Home() {
       </section>
 
       <CTABand
-        eyebrow="Your First Step"
-        title="Know what the problem is worth before you pay to solve it."
-        subtitle="Start with a low-cost, no-obligation diagnostic. You will leave with the numbers, the priorities, and a clear next-step plan — whether or not we build it."
-        ctaLabel="Book Your Diagnostic"
+        eyebrow="Get Started"
+        title="Find out what's actually broken — before you commit to fixing it."
+        subtitle="The audit is low-cost and no-obligation. You'll walk away with real numbers either way."
+        ctaLabel="Book Your Audit"
       />
     </>
   );

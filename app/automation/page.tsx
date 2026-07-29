@@ -7,27 +7,30 @@ import CTABand from "@/components/CTABand";
 import { automationPillar, automationIndustries } from "@/lib/content/automation";
 
 export const metadata: Metadata = {
-  title: "Automation",
-  description: automationPillar.summary,
+  title: {
+    absolute: "Automation Services | Cut Manual Admin — Drifinity",
+  },
+  description:
+    "Drifinity builds automation systems that remove manual admin for agencies, coaches, clinics, law firms, and trading companies.",
 };
 
 export default function AutomationHub() {
   return (
     <>
       <Hero
-        eyebrow="Operations Automation"
-        title="Return your team’s time to work that matters."
-        subtitle="We remove repetitive admin from intake, reminders, follow-ups, documents, and status updates — using the software your team already knows."
-        primaryCta={{ label: "Diagnose the Drag", href: "/contact" }}
+        eyebrow="Automation"
+        title="Remove the manual admin. Keep the software you already use."
+        subtitle={automationPillar.summary}
+        primaryCta={{ label: "Book Your Audit", href: "/contact" }}
         secondaryCta={{ label: "See Who We Help", href: "#industries" }}
       />
 
       <section className="section-pad mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <SectionHeading
-            eyebrow="The Hidden Cost"
-            title="Small manual tasks become a very expensive system."
-            description="Each reminder, handoff, form, follow-up, and status update feels harmless on its own. Count them across the team and the cost shows up in delayed work, missed details, and skilled people doing low-value admin."
+            eyebrow="The Problem"
+            title="Manual admin doesn't scale — and it's usually invisible until you count it"
+            description="Reminders, intake, follow-ups, document handling, status updates: each one feels small. Together they're hours a week that should be going toward the work that actually pays."
           />
           <div className="glass-card reveal p-7 sm:p-8">
             <p className="text-xs font-bold uppercase tracking-[.15em] text-red">The audit answers</p>
@@ -41,18 +44,39 @@ export default function AutomationHub() {
       <section className="section-pad border-y border-white/7 bg-white/[0.018]">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionHeading
-            eyebrow="The Engagement"
-            title="Trace it. Automate it. Keep it useful."
-            description="We build around the way your team already works, then refine the system as your volume and needs change."
+            eyebrow="How It Works"
+            title="Audit. Implementation. Optional retainer."
           />
           <div className="mt-12">
-            <ProcessSteps inverted />
+            <ProcessSteps
+              steps={[
+                {
+                  number: "01",
+                  title: "Audit",
+                  description:
+                    "A low-cost, no-obligation diagnostic that maps exactly where the gap is — growth or operations — and what closing it is worth, in real numbers.",
+                },
+                {
+                  number: "02",
+                  title: "Implementation",
+                  description:
+                    "We build the fix: the offer, the pipeline, or the workflow — scoped to what the audit actually found, not a generic package.",
+                },
+                {
+                  number: "03",
+                  title: "Retainer",
+                  description:
+                    "Optional. Once the system is live, we can stay on to refine it against real results as your business changes.",
+                },
+              ]}
+              inverted
+            />
           </div>
         </div>
       </section>
 
       <section id="industries" className="section-pad mx-auto max-w-7xl scroll-mt-28 px-6 lg:px-10">
-        <SectionHeading eyebrow="Where We Specialise" title="Automation designed around how you operate." description="Every service model has a different kind of operational drag. Choose the environment closest to yours." />
+        <SectionHeading eyebrow="Who We Work With" title="Built for how you operate" />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {automationIndustries.map((industry) => (
             <IndustryCard
@@ -66,9 +90,9 @@ export default function AutomationHub() {
       </section>
 
       <CTABand
-        title="How much capacity is hidden inside your current workflow?"
-        subtitle="The diagnostic gives you a real number, a priority map, and a practical automation plan — with no obligation to go further."
-        ctaLabel="Measure the Opportunity"
+        title="Curious how much manual admin is actually costing you?"
+        subtitle="The audit puts a real number on it — no obligation to go further."
+        ctaLabel="Book Your Audit"
       />
     </>
   );

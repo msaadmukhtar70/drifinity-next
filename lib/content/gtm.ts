@@ -4,7 +4,7 @@ export const gtmPillar = {
   label: "GTM",
   name: "Go-To-Market",
   href: "/gtm",
-  tagline: "Growth that isn't dependent on referrals or founder hustle.",
+  tagline: "Growth that doesn't depend on referrals or founder hustle",
   summary:
     "We fix the offer, the positioning, and the pipeline — so new business shows up on a schedule, not by accident.",
 };
@@ -13,6 +13,9 @@ export const gtmIndustries: IndustryContent[] = [
   {
     slug: "startups",
     name: "Startups",
+    metaTitle: "GTM for Startups | Repeatable Growth Systems — Drifinity",
+    metaDescription:
+      "Stop selling on founder time. Drifinity builds the offer and pipeline that let startups grow without the founder closing every deal.",
     headline: "Stop selling on founder time. Start selling on a system.",
     dek: "Early traction from founder-led sales feels like progress — until it caps out. We build the offer and pipeline that let growth continue without the founder personally closing every deal.",
     painPoints: [
@@ -40,10 +43,14 @@ export const gtmIndustries: IndustryContent[] = [
     ],
     outcome:
       "A pipeline that produces qualified conversations without the founder personally generating every one of them.",
+    ctaTitle: "Ready to see where startups' gaps are costing you?",
   },
   {
     slug: "agencies",
     name: "Agencies",
+    metaTitle: "GTM for Agencies | Stop Relying on Referrals — Drifinity",
+    metaDescription:
+      "Most agencies grow in bursts, then hit a dry spell. Drifinity builds a pipeline that runs whether or not referrals slow down.",
     headline: "Feast-or-famine client acquisition, fixed.",
     dek: "Most agencies grow in bursts — a referral here, a proposal there — then hit a dry spell with no clear cause. We replace the guesswork with a pipeline that runs whether or not the phone happens to ring.",
     painPoints: [
@@ -71,10 +78,14 @@ export const gtmIndustries: IndustryContent[] = [
     ],
     outcome:
       "A second, reliable channel for new business that runs independently of referrals.",
+    ctaTitle: "Ready to see where agencies' gaps are costing you?",
   },
   {
     slug: "coaches-consultants",
     name: "Coaches & Consultants",
+    metaTitle: "GTM for Coaches & Consultants — Drifinity",
+    metaDescription:
+      "Being known gets you some clients, not predictable ones. Drifinity builds the pipeline that doesn't depend on you posting every week.",
     headline: "A personal brand isn't a pipeline. We build the pipeline.",
     dek: "Being known in your space gets you some clients. It doesn't get you a predictable number of them, every month, without you personally showing up everywhere. We systematize the parts that shouldn't rely on you.",
     painPoints: [
@@ -102,5 +113,41 @@ export const gtmIndustries: IndustryContent[] = [
     ],
     outcome:
       "A pipeline that keeps producing booked calls even in the weeks you don't post.",
+    ctaTitle: "Ready to see where coaches & consultants' gaps are costing you?",
+  },
+  {
+    slug: "trading-companies",
+    name: "Trading Companies",
+    metaTitle: "GTM for Trading Companies — Drifinity",
+    metaDescription:
+      "Stop waiting on distributor referrals. Drifinity builds a repeatable offer and pipeline for trading companies.",
+    headline: "Stop waiting on the next distributor referral.",
+    dek: "Trading companies often grow through distributor relationships and repeat buyers, leaving new business unpredictable. We build the offer, positioning, and pipeline that create demand beyond referrals.",
+    painPoints: [
+      "New opportunities depend on distributor introductions and repeat buyers, with no reliable backup when referrals slow down.",
+      "The offer and value proposition change from conversation to conversation, making the business difficult to position clearly.",
+      "Prospects and follow-ups live across emails, spreadsheets, and messages instead of one repeatable sales process.",
+      "Growth is reactive to the next enquiry rather than driven by a pipeline the team can run consistently.",
+    ],
+    approach: [
+      {
+        title: "Audit",
+        description:
+          "We map where recent deals came from, how buyers evaluate the offer, and where qualified opportunities stall — then quantify what a repeatable pipeline is worth.",
+      },
+      {
+        title: "Implementation",
+        description:
+          "We sharpen the offer and positioning, define the right buyer and distributor targets, and build the outreach and follow-up system needed to reach them consistently.",
+      },
+      {
+        title: "Retainer (optional)",
+        description:
+          "We keep the pipeline tuned as product lines, markets, and distributor relationships change.",
+      },
+    ],
+    outcome:
+      "A repeatable pipeline for qualified buyer and distributor conversations that doesn't depend on the next referral.",
+    ctaTitle: "Ready to see where trading companies' gaps are costing you?",
   },
 ];

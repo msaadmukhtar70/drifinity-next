@@ -13,9 +13,9 @@ const defaultSteps = [
   },
   {
     number: "03",
-    title: "Retainer",
+    title: "Retainer (optional)",
     description:
-      "Optional. Once the system is live, we can stay on to refine it against real results as your business changes.",
+      "Once the system is live, we can stay on to refine it against real results as your business changes.",
   },
 ];
 

@@ -18,22 +18,24 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://drifinity.com"),
   title: {
-    default: "Drifinity — Find the Revenue Leak. Build the Fix.",
+    default: "Drifinity | GTM & Automation Systems for Growing Businesses",
     template: "%s — Drifinity",
   },
   description:
-    "Drifinity diagnoses the growth and operational leaks costing your business, then builds the systems to fix them — starting with evidence, not a pitch.",
+    "Fix how you grow or how you run. Drifinity builds GTM and automation systems for agencies, startups, clinics, law firms, and trading companies.",
   openGraph: {
     type: "website",
     siteName: "Drifinity",
-    title: "Drifinity — Find the Leak. Build the Fix.",
-    description: "Growth and operations intelligence for businesses ready to replace guesswork with a system.",
+    title: "Drifinity | GTM & Automation Systems for Growing Businesses",
+    description:
+      "Fix how you grow or how you run. Drifinity builds GTM and automation systems for agencies, startups, clinics, law firms, and trading companies.",
     images: [{ url: "/og.png", width: 1733, height: 908, alt: "Drifinity — Find the leak. Build the fix." }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Drifinity — Find the Leak. Build the Fix.",
-    description: "Growth and operations intelligence for businesses ready to replace guesswork with a system.",
+    title: "Drifinity | GTM & Automation Systems for Growing Businesses",
+    description:
+      "Fix how you grow or how you run. Drifinity builds GTM and automation systems for agencies, startups, clinics, law firms, and trading companies.",
     images: ["/og.png"],
   },
 };
