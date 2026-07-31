@@ -21,7 +21,7 @@ export default function AutomationHub() {
         eyebrow="Automation"
         title="Remove the manual admin. Keep the software you already use."
         subtitle={automationPillar.summary}
-        primaryCta={{ label: "Book Your Audit", href: "/contact" }}
+        primaryCta={{ label: "Book Your Audit", href: "/audit.html" }}
         secondaryCta={{ label: "See Who We Help", href: "#industries" }}
       />
 

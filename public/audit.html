@@ -1,0 +1,623 @@
+<meta charset="utf-8">
+<title>Drifinity — Free Growth &amp; Ops Audit</title>
+<meta name="description" content="A 90-second self-check that finds the leak between growing and running well.">
+<style>
+  :root{
+    --bg:#0a0a0d;
+    --bg-2:#100b0d;
+    --panel:#13141c;
+    --panel-2:#181a24;
+    --border:rgba(255,255,255,0.09);
+    --border-strong:rgba(255,255,255,0.16);
+    --text:#f3f1ee;
+    --text-muted:#98a0ad;
+    --text-dim:#6b7280;
+    --accent:#e2483a;
+    --accent-2:#f2a08f;
+    --accent-soft:rgba(226,72,58,0.14);
+    --good:#34d1a0;
+    --warn:#f2b84b;
+    --radius:20px;
+    --radius-sm:12px;
+    font-synthesis:none;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  #audit-root{
+    min-height:100%;
+    background:
+      radial-gradient(560px 420px at 82% -6%, rgba(226,72,58,0.16), transparent 60%),
+      radial-gradient(480px 360px at 10% 106%, rgba(226,72,58,0.10), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    padding:56px 20px 72px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{ font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; }
+  .eyebrow{
+    font-size:11.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--accent-2); display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow .dash{ width:16px; height:1px; background:var(--accent); display:inline-block; }
+  .wordmark{
+    display:flex; align-items:center; gap:10px; margin-bottom:44px; user-select:none;
+  }
+  .wordmark .mark{
+    width:26px; height:26px; border-radius:7px; background:linear-gradient(155deg,var(--accent),#a8261a);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; color:#fff;
+    box-shadow:0 4px 14px rgba(226,72,58,0.35);
+  }
+  .wordmark span{ font-weight:800; font-size:14.5px; letter-spacing:0.06em; }
+
+  .console{
+    width:100%; max-width:640px; background:var(--panel);
+    border:1px solid var(--border); border-radius:var(--radius);
+    box-shadow:0 30px 80px -30px rgba(0,0,0,0.7);
+    overflow:hidden; position:relative;
+  }
+  .console::before{
+    content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
+    background:linear-gradient(180deg, rgba(255,255,255,0.04), transparent 30%);
+  }
+  .console-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 26px; border-bottom:1px solid var(--border);
+  }
+  .console-head .label{ display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:0.1em; color:var(--text-muted); text-transform:uppercase; }
+  .pulse{ width:7px; height:7px; border-radius:50%; background:var(--good); box-shadow:0 0 0 3px rgba(52,209,160,0.18); animation:pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1 } 50%{ opacity:0.45 } }
+  .progress-dots{ display:flex; gap:6px; }
+  .progress-dots i{ width:16px; height:3px; border-radius:2px; background:var(--border-strong); display:block; transition:background .3s; }
+  .progress-dots i.active{ background:var(--accent); }
+  .progress-dots i.done{ background:var(--accent-2); }
+
+  .panel{ padding:40px 32px 32px; }
+  @media(min-width:560px){ .panel{ padding:48px 44px 40px; } }
+
+  h1{ font-size:clamp(26px,4.4vw,34px); line-height:1.12; font-weight:800; letter-spacing:-0.01em; margin:14px 0 12px; text-wrap:balance; }
+  h1 em{ font-style:normal; background:linear-gradient(100deg,var(--text) 15%,var(--accent-2) 55%,var(--accent) 90%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .lede{ font-size:15.5px; line-height:1.6; color:var(--text-muted); max-width:46ch; margin:0 0 28px; }
+
+  .btn{
+    appearance:none; border:none; cursor:pointer; font-family:inherit;
+    font-weight:700; font-size:14.5px; letter-spacing:0.01em;
+    border-radius:999px; padding:14px 24px; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .15s ease;
+  }
+  .btn:active{ transform:scale(0.98); }
+  .btn-primary{ background:linear-gradient(135deg,var(--accent),#c53a2e); color:#fff; box-shadow:0 10px 26px -10px rgba(226,72,58,0.6); }
+  .btn-primary:hover{ box-shadow:0 14px 30px -10px rgba(226,72,58,0.75); }
+  .btn-primary:disabled{ opacity:0.4; cursor:not-allowed; box-shadow:none; }
+  .btn-ghost{ background:transparent; color:var(--text-muted); border:1px solid var(--border-strong); }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--text-muted); }
+  .btn-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:8px; }
+  .btn-back{ background:none; border:none; color:var(--text-dim); font-size:13px; font-weight:600; cursor:pointer; padding:8px 2px; display:flex; align-items:center; gap:5px; }
+  .btn-back:hover{ color:var(--text-muted); }
+
+  .choice-list{ display:flex; flex-direction:column; gap:10px; margin:22px 0 8px; }
+  .choice{
+    text-align:left; width:100%; background:var(--panel-2); border:1px solid var(--border);
+    border-radius:var(--radius-sm); padding:16px 18px; color:var(--text); cursor:pointer;
+    font-family:inherit; font-size:14.5px; line-height:1.45; transition:border-color .15s, background .15s, transform .1s;
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+  }
+  .choice:hover{ border-color:var(--accent); background:#1c1720; }
+  .choice:active{ transform:scale(0.995); }
+  .choice .num{ font-size:12px; color:var(--text-dim); flex-shrink:0; }
+  .choice.selected{ border-color:var(--accent); background:var(--accent-soft); }
+
+  .qmeta{ font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
+  .qtext{ font-size:19px; font-weight:700; line-height:1.4; margin:0 0 4px; text-wrap:balance; }
+
+  .scale-row{ display:flex; gap:8px; margin:26px 0 10px; }
+  .scale-btn{
+    flex:1; aspect-ratio:1; border-radius:14px; border:1px solid var(--border);
+    background:var(--panel-2); color:var(--text-muted); font-weight:800; font-size:16px;
+    cursor:pointer; transition:all .15s; font-family:inherit;
+  }
+  .scale-btn:hover{ border-color:var(--accent-2); color:var(--text); }
+  .scale-btn.selected{ background:linear-gradient(135deg,var(--accent),#c53a2e); border-color:transparent; color:#fff; }
+  .scale-labels{ display:flex; justify-content:space-between; font-size:12px; color:var(--text-dim); margin-bottom:6px; }
+
+  .triage-grid{ display:flex; flex-direction:column; gap:12px; margin:24px 0 8px; }
+  .triage-card{
+    text-align:left; background:var(--panel-2); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:18px 20px; cursor:pointer; font-family:inherit; color:var(--text); transition:all .15s;
+  }
+  .triage-card:hover{ border-color:var(--accent); background:#1c1720; }
+  .triage-card b{ display:block; font-size:15.5px; margin-bottom:3px; }
+  .triage-card span{ font-size:13px; color:var(--text-muted); }
+
+  .scan-wrap{ padding:64px 32px 56px; text-align:center; }
+  .scan-ring{ width:64px; height:64px; margin:0 auto 26px; border-radius:50%; border:3px solid var(--border); border-top-color:var(--accent); animation:spin 0.9s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .scan-line{ font-size:13.5px; color:var(--text-muted); font-family:ui-monospace,monospace; min-height:20px; }
+
+  .metric{ margin-bottom:20px; }
+  .metric-top{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+  .metric-name{ font-size:13.5px; font-weight:700; }
+  .metric-tag{ font-size:10.5px; color:var(--text-dim); font-weight:600; letter-spacing:0.02em; }
+  .metric-val{ font-size:15px; font-weight:800; }
+  .metric-track{ height:8px; border-radius:5px; background:rgba(255,255,255,0.06); overflow:hidden; }
+  .metric-fill{ height:100%; border-radius:5px; background:linear-gradient(90deg,#c53a2e,var(--accent)); transition:width 1s cubic-bezier(.2,.8,.2,1); }
+  .metric.locked .metric-fill{ background:linear-gradient(90deg,#3b3d47,#4a4d59); }
+  .metric.locked .metric-val{ filter:blur(5px); user-select:none; }
+  .metric.locked{ position:relative; }
+  .lock-note{ display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-dim); margin-top:6px; }
+
+  .diagnosis-card{
+    background:var(--accent-soft); border:1px solid rgba(226,72,58,0.3); border-radius:var(--radius-sm);
+    padding:18px 20px; margin:6px 0 28px;
+  }
+  .diagnosis-card .tag{ font-size:11px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin-bottom:6px; display:block; }
+  .diagnosis-card p{ margin:0; font-size:15.5px; font-weight:700; line-height:1.4; }
+
+  .unlock-band{
+    margin-top:8px; padding:20px; border-radius:var(--radius-sm); border:1px dashed var(--border-strong);
+    background:rgba(255,255,255,0.02); text-align:center;
+  }
+  .unlock-band p{ margin:0 0 14px; font-size:13.5px; color:var(--text-muted); }
+
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:var(--text-dim); margin-bottom:7px; }
+  .field input, .field textarea{
+    width:100%; background:var(--panel-2); border:1px solid var(--border); border-radius:10px;
+    padding:13px 14px; color:var(--text); font-family:inherit; font-size:14.5px; transition:border-color .15s;
+  }
+  .field input:focus, .field textarea:focus{ outline:none; border-color:var(--accent); }
+  .field-row{ display:flex; gap:12px; }
+  .field-row .field{ flex:1; }
+  .fine{ font-size:11.5px; color:var(--text-dim); line-height:1.5; margin-top:18px; }
+
+  .check-list{ list-style:none; padding:0; margin:0 0 24px; display:flex; flex-direction:column; gap:9px; }
+  .check-list li{ display:flex; gap:9px; align-items:flex-start; font-size:13.5px; color:var(--text-muted); }
+  .check-list li::before{ content:"✓"; color:var(--good); font-weight:800; flex-shrink:0; }
+
+  .done-icon{ width:52px; height:52px; border-radius:50%; background:var(--accent-soft); border:1px solid rgba(226,72,58,0.35); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:20px; }
+
+  a.textlink{ color:var(--accent-2); text-decoration:none; border-bottom:1px solid rgba(242,160,143,0.4); }
+  a.textlink:hover{ border-color:var(--accent-2); }
+
+  [data-step]{ display:none; }
+  [data-step].active{ display:block; animation:fade .35s ease; }
+  @keyframes fade{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+
+  @media (prefers-reduced-motion: reduce){
+    .pulse, .scan-ring, [data-step].active{ animation:none; }
+    .metric-fill{ transition:none; }
+  }
+</style>
+
+<div id="audit-root">
+  <div class="wordmark"><span class="mark">D</span><span>DRIFINITY</span></div>
+
+  <div class="console">
+    <div class="console-head">
+      <div class="label"><span class="pulse"></span> Free Diagnostic</div>
+      <div class="progress-dots" id="dots"></div>
+    </div>
+
+    <!-- STEP: intro -->
+    <div class="panel" data-step="intro">
+      <div class="eyebrow"><span class="dash"></span>90-SECOND SELF-CHECK</div>
+      <h1>Find the <em>leak</em> before you spend a dollar fixing it.</h1>
+      <p class="lede">Answer a few questions about how growth or operations actually work today. You'll get an instant read on where the gap is — then the option to book the full numbers-backed audit.</p>
+      <ul class="check-list">
+        <li>Takes about 90 seconds, no prep needed</li>
+        <li>Instant directional score, not a generic quiz result</li>
+        <li>No obligation — see your result before you talk to anyone</li>
+      </ul>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="Audit.start()">Start the self-check →</button>
+      </div>
+    </div>
+
+    <!-- STEP: triage -->
+    <div class="panel" data-step="triage">
+      <button class="btn-back" onclick="Audit.back('intro')">← Back</button>
+      <div class="qmeta">Step 1 of 2 · Starting point</div>
+      <h1 style="font-size:23px;margin-top:10px;">What feels broken right now?</h1>
+      <p class="lede" style="margin-bottom:6px;">Pick the closest symptom. If you're not sure, that's useful information too.</p>
+      <div class="triage-grid">
+        <button class="triage-card" onclick="Audit.pickBranch('gtm')">
+          <b>Growth feels unpredictable</b>
+          <span>Leads are inconsistent, referral-dependent, or stuck on the founder</span>
+        </button>
+        <button class="triage-card" onclick="Audit.pickBranch('automation')">
+          <b>The team is buried in admin</b>
+          <span>Manual follow-up, data entry, chasing documents and status updates</span>
+        </button>
+        <button class="triage-card" onclick="Audit.pickBranch('blended')">
+          <b>Not sure — could be both</b>
+          <span>We'll ask a shorter, blended set and split the diagnosis for you</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP: question -->
+    <div class="panel" data-step="question">
+      <button class="btn-back" onclick="Audit.prevQuestion()">← Back</button>
+      <div class="qmeta" id="q-meta">Step 2 of 2 · Question 1 of 5</div>
+      <h1 class="qtext" id="q-text" style="font-size:20px;"></h1>
+      <div id="q-body"></div>
+    </div>
+
+    <!-- STEP: scanning -->
+    <div class="scan-wrap" data-step="scanning">
+      <div class="scan-ring"></div>
+      <div class="scan-line mono" id="scan-line">Scoring responses…</div>
+    </div>
+
+    <!-- STEP: teaser -->
+    <div class="panel" data-step="teaser">
+      <div class="eyebrow"><span class="dash"></span>YOUR RESULT</div>
+      <h1 style="font-size:24px;" id="teaser-headline"></h1>
+      <div class="diagnosis-card">
+        <span class="tag">Primary opportunity</span>
+        <p id="teaser-diagnosis"></p>
+      </div>
+      <div id="teaser-metrics"></div>
+      <div class="unlock-band">
+        <p>Full breakdown + what to fix first is one step away.</p>
+        <button class="btn btn-primary" onclick="Audit.goto('leadform')" style="width:100%;justify-content:center;">Unlock my full diagnostic →</button>
+      </div>
+    </div>
+
+    <!-- STEP: leadform -->
+    <div class="panel" data-step="leadform">
+      <button class="btn-back" onclick="Audit.goto('teaser')">← Back to result</button>
+      <div class="qmeta" style="margin-top:10px;">Last step</div>
+      <h1 style="font-size:23px;">Where should we send the full breakdown?</h1>
+      <p class="lede">We'll unlock every metric below, and follow up within one business day to schedule the full numbers-backed audit call.</p>
+      <div class="field-row">
+        <div class="field"><label for="f-name">Name</label><input id="f-name" type="text" autocomplete="name" placeholder="Jordan Lee"></div>
+        <div class="field"><label for="f-company">Company</label><input id="f-company" type="text" autocomplete="organization" placeholder="Acme Co."></div>
+      </div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" autocomplete="email" placeholder="jordan@acme.com"></div>
+      <div class="field"><label for="f-note">Anything specific feeling stuck? (optional)</label><textarea id="f-note" rows="2" placeholder="e.g. leads come in but half never convert"></textarea></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="submit-btn" onclick="Audit.submit()" style="width:100%;justify-content:center;">Unlock full diagnostic →</button>
+      </div>
+      <p class="fine">No spam, no hard sell. Submitting sends your answers straight to the team so we can follow up.</p>
+    </div>
+
+    <!-- STEP: results -->
+    <div class="panel" data-step="results">
+      <div class="done-icon">✓</div>
+      <h1 style="font-size:23px;">Here's your full diagnostic, <span id="res-name"></span>.</h1>
+      <div class="diagnosis-card">
+        <span class="tag">Primary opportunity</span>
+        <p id="res-diagnosis"></p>
+      </div>
+      <div id="res-metrics"></div>
+      <div class="btn-row" style="margin-top:6px;">
+        <a class="btn btn-primary" id="book-link" href="https://drifinity.com/contact" target="_blank" rel="noopener">Book the full audit call →</a>
+        <button class="btn btn-ghost" onclick="Audit.reset()">Start over</button>
+      </div>
+      <p class="fine">This self-check is directional. The full audit puts real numbers on the gap before you commit to anything bigger.</p>
+    </div>
+  </div>
+
+  <p class="fine" style="margin-top:22px;max-width:640px;text-align:center;">Prefer to skip the quiz? Email <a class="textlink" href="mailto:contact@drifinity.com">contact@drifinity.com</a> or <a class="textlink" href="https://drifinity.com/contact" target="_blank" rel="noopener">go straight to booking</a>.</p>
+</div>
+
+<script>
+(function(){
+  const GTM_Q = [
+    { id:'leadsource', text:"How do most new customers find you right now?",
+      opts:[
+        {label:"A repeatable system — outbound, ads, or content on a schedule", score:88},
+        {label:"Mostly referrals and word of mouth", score:38},
+        {label:"A mix, but it varies a lot month to month", score:55},
+      ]},
+    { id:'closer', text:"Who closes most of your deals?",
+      opts:[
+        {label:"A defined sales process, not tied to one person", score:88},
+        {label:"The founder or owner, personally, on most deals", score:32},
+      ]},
+    { id:'offerclarity', text:"If a stranger read your website cold, would they instantly get what you do and who it's for?", scale:true },
+    { id:'followup', text:"What happens after a lead goes quiet for a few days?",
+      opts:[
+        {label:"An automatic sequence follows up — nobody has to remember", score:85},
+        {label:"Someone follows up, but it's manual and inconsistent", score:45},
+        {label:"Realistically, nothing — the lead goes cold", score:18},
+      ]},
+    { id:'predictability', text:"If asked how many new customers you'll close next month, could you give a real number?",
+      opts:[
+        {label:"Yes, within a reasonable range", score:88},
+        {label:"A rough guess at best", score:50},
+        {label:"No idea — could be a great month or a dead one", score:22},
+      ]},
+  ];
+
+  const AUTO_Q = [
+    { id:'adminhours', text:"How many hours a week go to manual admin — data entry, status updates, chasing information?",
+      opts:[
+        {label:"Under 5 hours — mostly out of our hands already", score:85},
+        {label:"5–15 hours — noticeable, but manageable", score:52},
+        {label:"15+ hours — it eats a real chunk of the week", score:20},
+      ]},
+    { id:'reminders', text:"Do reminders and follow-ups fire on their own, or does someone have to remember?",
+      opts:[
+        {label:"They run automatically, every time", score:88},
+        {label:"Mostly manual — sticky notes, calendar blocks, memory", score:35},
+      ]},
+    { id:'intake', text:"When a new lead or client comes in, how does intake happen?",
+      opts:[
+        {label:"A form routes them automatically — no one keys anything in", score:85},
+        {label:"Someone manually copies details from email into a spreadsheet or tool", score:32},
+      ]},
+    { id:'documents', text:"How do you collect and track documents or paperwork from clients?",
+      opts:[
+        {label:"Automated requests and tracking — we see what's missing at a glance", score:85},
+        {label:"Manual chasing over email and text", score:30},
+      ]},
+    { id:'resilience', text:"If your ops person were out sick for a week, would things still run?",
+      opts:[
+        {label:"Yes — the system doesn't depend on one person", score:85},
+        {label:"It would be rough, but survivable", score:50},
+        {label:"Honestly, things would fall apart", score:18},
+      ]},
+  ];
+
+  const BLEND_Q = [ GTM_Q[0], GTM_Q[2], GTM_Q[3], AUTO_Q[0], AUTO_Q[2] ];
+
+  const STEPS = ['intro','triage','question','scanning','teaser','leadform','results'];
+
+  const state = { branch:null, questions:[], qIndex:0, answers:{}, scores:null, step:'intro' };
+
+  const root = document.getElementById('audit-root');
+  const dotsEl = document.getElementById('dots');
+
+  function renderDots(){
+    const order = ['intro','triage','question','teaser','leadform','results'];
+    const cur = state.step === 'scanning' ? 'teaser' : state.step;
+    dotsEl.innerHTML = order.map(s=>{
+      const idx = order.indexOf(s), curIdx = order.indexOf(cur);
+      const cls = s===cur ? 'active' : (idx<curIdx ? 'done' : '');
+      return `<i class="${cls}"></i>`;
+    }).join('');
+  }
+
+  function show(step){
+    if(step==='teaser'){ renderTeaser(); }
+    state.step = step;
+    document.querySelectorAll('[data-step]').forEach(el=>{
+      el.classList.toggle('active', el.dataset.step===step);
+    });
+    renderDots();
+    root.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function pickBranch(branch){
+    state.branch = branch;
+    state.questions = branch==='gtm' ? GTM_Q : branch==='automation' ? AUTO_Q : BLEND_Q;
+    state.qIndex = 0;
+    state.answers = {};
+    renderQuestion();
+    show('question');
+  }
+
+  function renderQuestion(){
+    const q = state.questions[state.qIndex];
+    document.getElementById('q-meta').textContent = `Step 2 of 2 · Question ${state.qIndex+1} of ${state.questions.length}`;
+    document.getElementById('q-text').textContent = q.text;
+    const body = document.getElementById('q-body');
+    if(q.scale){
+      body.innerHTML = `
+        <div class="scale-labels"><span>Not at all</span><span>Completely</span></div>
+        <div class="scale-row">${[1,2,3,4,5].map(n=>`<button class="scale-btn" data-n="${n}" onclick="Audit.answerScale(${n})">${n}</button>`).join('')}</div>`;
+    } else {
+      body.innerHTML = `<div class="choice-list">${q.opts.map((o,i)=>
+        `<button class="choice" onclick="Audit.answerChoice(${i})"><span>${o.label}</span></button>`
+      ).join('')}</div>`;
+    }
+  }
+
+  function answerChoice(i){
+    const q = state.questions[state.qIndex];
+    state.answers[q.id] = q.opts[i].score;
+    advanceQuestion();
+  }
+  function answerScale(n){
+    const q = state.questions[state.qIndex];
+    state.answers[q.id] = n*20;
+    advanceQuestion();
+  }
+  function advanceQuestion(){
+    if(state.qIndex < state.questions.length-1){
+      state.qIndex++;
+      renderQuestion();
+    } else {
+      runScan();
+    }
+  }
+  function prevQuestion(){
+    if(state.qIndex>0){ state.qIndex--; renderQuestion(); }
+    else { show('triage'); }
+  }
+
+  const SCAN_LINES = ["Scoring responses…","Cross-checking patterns…","Modeling the gap…","Finalizing diagnosis…"];
+  function runScan(){
+    show('scanning');
+    let i=0;
+    const line = document.getElementById('scan-line');
+    line.textContent = SCAN_LINES[0];
+    const t = setInterval(()=>{
+      i++;
+      if(i<SCAN_LINES.length){ line.textContent = SCAN_LINES[i]; }
+      else { clearInterval(t); computeScores(); show('teaser'); }
+    }, 500);
+  }
+
+  function computeScores(){
+    const a = state.answers;
+    let metrics;
+    if(state.branch==='gtm'){
+      metrics = [
+        { name:"Offer clarity", value:a.offerclarity, inverse:false },
+        { name:"Pipeline health", value:Math.round((a.leadsource+a.followup+a.predictability)/3), inverse:false },
+        { name:"Founder dependency", value:100-a.closer, inverse:true },
+      ];
+    } else if(state.branch==='automation'){
+      metrics = [
+        { name:"Automation coverage", value:Math.round((a.reminders+a.intake+a.documents)/3), inverse:false },
+        { name:"Manual admin load", value:100-a.adminhours, inverse:true },
+        { name:"Team dependency risk", value:100-a.resilience, inverse:true },
+      ];
+    } else {
+      metrics = [
+        { name:"Offer clarity", value:a.offerclarity, inverse:false },
+        { name:"Pipeline health", value:Math.round((a.leadsource+a.followup)/2), inverse:false },
+        { name:"Operational drag", value:100-Math.round((a.adminhours+a.intake)/2), inverse:true },
+      ];
+    }
+    const normalized = metrics.map(m=> m.inverse ? 100-m.value : m.value);
+    const composite = Math.round(normalized.reduce((s,v)=>s+v,0)/normalized.length);
+    state.scores = { metrics, composite };
+  }
+
+  const DIAGNOSIS = {
+    gtm: {
+      high:"Your growth engine is mostly sound — the audit would mostly hunt for the last few points of leverage.",
+      mid:"There's a real leak in the growth system, most likely in follow-up consistency or offer clarity.",
+      low:"Growth is currently running on referrals and founder hustle, not a repeatable system.",
+    },
+    automation: {
+      high:"Operations are fairly tight already — automation would mostly sharpen the edges.",
+      mid:"A meaningful chunk of the week is going to work software could be doing instead.",
+      low:"The business is running on manual effort in places a system could fully absorb.",
+    },
+    blended: {
+      high:"Both growth and operations look reasonably healthy — worth confirming with real numbers.",
+      mid:"There's a leak somewhere between how you grow and how you run — the audit will locate it precisely.",
+      low:"Both the growth system and the operational load need attention before scaling further.",
+    },
+  };
+  function tier(v){ return v>=72 ? 'high' : v>=48 ? 'mid' : 'low'; }
+
+  function metricRow(m, locked){
+    const tag = m.inverse ? "lower is better" : "higher is better";
+    return `<div class="metric ${locked?'locked':''}">
+      <div class="metric-top">
+        <div><span class="metric-name">${m.name}</span><br><span class="metric-tag">${tag}</span></div>
+        <span class="metric-val mono">${locked?'••%':m.value+'%'}</span>
+      </div>
+      <div class="metric-track"><div class="metric-fill" style="width:${locked?18:m.value}%"></div></div>
+    </div>`;
+  }
+
+  function renderTeaser(){
+    const { metrics, composite } = state.scores;
+    const t = tier(composite);
+    document.getElementById('teaser-headline').innerHTML =
+      composite>=72 ? "Mostly healthy — small leak found." :
+      composite>=48 ? "Moderate leak detected." : "Significant leak detected.";
+    document.getElementById('teaser-diagnosis').textContent = DIAGNOSIS[state.branch][t];
+
+    const sorted = [...metrics].sort((x,y)=> (x.inverse?100-x.value:x.value) - (y.inverse?100-y.value:y.value));
+    const revealId = sorted[0].name;
+    document.getElementById('teaser-metrics').innerHTML =
+      metrics.map(m=> metricRow(m, m.name!==revealId)).join('') +
+      `<div class="lock-note">🔒 2 of 3 metrics locked — unlock below</div>`;
+  }
+
+  function renderResults(name){
+    const { metrics, composite } = state.scores;
+    const t = tier(composite);
+    document.getElementById('res-name').textContent = name || '';
+    document.getElementById('res-diagnosis').textContent = DIAGNOSIS[state.branch][t];
+    document.getElementById('res-metrics').innerHTML = metrics.map(m=>metricRow(m,false)).join('');
+  }
+
+  function buildMailto(){
+    const name = document.getElementById('f-name').value.trim();
+    const company = document.getElementById('f-company').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const note = document.getElementById('f-note').value.trim();
+    const { metrics, composite } = state.scores;
+    const branchLabel = state.branch==='gtm'?'GTM':state.branch==='automation'?'Automation':'Not sure / blended';
+    const lines = [
+      `New audit self-check submission`,
+      ``,
+      `Name: ${name}`,
+      `Company: ${company}`,
+      `Email: ${email}`,
+      `Branch: ${branchLabel}`,
+      `Composite score: ${composite}%`,
+      ``,
+      `Metrics:`,
+      ...metrics.map(m=>`- ${m.name}: ${m.value}% (${m.inverse?'lower is better':'higher is better'})`),
+      ``,
+      note ? `What feels stuck: ${note}` : ``,
+    ].filter(Boolean);
+    const subject = encodeURIComponent(`Audit self-check — ${name || 'New lead'}${company?' / '+company:''}`);
+    const body = encodeURIComponent(lines.join('\n'));
+    return { name, email, href:`mailto:contact@drifinity.com?subject=${subject}&body=${body}` };
+  }
+
+  const FORM_ENDPOINT = 'https://formspree.io/f/mvzeyqwe';
+
+  async function submit(){
+    const name = document.getElementById('f-name').value.trim();
+    const company = document.getElementById('f-company').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const note = document.getElementById('f-note').value.trim();
+    if(!name || !email || !/^\S+@\S+\.\S+$/.test(email)){
+      alert('Please enter your name and a valid email so we can send the full breakdown.');
+      return;
+    }
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    const { metrics, composite } = state.scores;
+    const branchLabel = state.branch==='gtm'?'GTM':state.branch==='automation'?'Automation':'Not sure / blended';
+    const payload = {
+      name, company, email,
+      note: note || '(none)',
+      branch: branchLabel,
+      composite_score: `${composite}%`,
+      _subject: `Audit self-check — ${name}${company?' / '+company:''}`,
+    };
+    metrics.forEach(m=>{ payload[m.name] = `${m.value}% (${m.inverse?'lower is better':'higher is better'})`; });
+
+    try{
+      const res = await fetch(FORM_ENDPOINT, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if(!res.ok) throw new Error('Formspree request failed');
+    } catch(err){
+      const { href } = buildMailto();
+      window.location.href = href;
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Unlock full diagnostic →';
+    renderResults(name);
+    show('results');
+  }
+
+  function reset(){
+    state.branch=null; state.questions=[]; state.qIndex=0; state.answers={}; state.scores=null;
+    ['f-name','f-company','f-email','f-note'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    show('intro');
+  }
+
+  window.Audit = {
+    start:()=>show('triage'),
+    back:(s)=>show(s),
+    pickBranch, answerChoice, answerScale, prevQuestion,
+    goto:(s)=>show(s),
+    submit, reset,
+  };
+
+  show('intro');
+})();
+</script>

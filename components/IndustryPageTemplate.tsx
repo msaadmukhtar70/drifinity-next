@@ -22,7 +22,7 @@ export default function IndustryPageTemplate({
         eyebrow={`${pillarLabel} — ${industry.name}`}
         title={industry.headline}
         subtitle={industry.dek}
-        primaryCta={{ label: "Book Your Audit", href: "/contact" }}
+        primaryCta={{ label: "Book Your Audit", href: "/audit.html" }}
         secondaryCta={{ label: `${pillarName} Overview`, href: pillarHref }}
       />
 

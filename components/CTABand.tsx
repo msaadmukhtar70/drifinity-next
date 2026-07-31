@@ -5,7 +5,7 @@ export default function CTABand({
   title,
   subtitle,
   ctaLabel = "Book Your Audit",
-  ctaHref = "/contact",
+  ctaHref = "/audit.html",
 }: {
   eyebrow?: string;
   title: string;

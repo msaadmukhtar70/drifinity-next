@@ -41,7 +41,7 @@ export default function Home() {
         eyebrow="Drifinity"
         title="We find the gap between growing and running well. Then we close it."
         subtitle="One brand, two ways in. Fix how you grow with GTM, or fix how you run with Automation. Every engagement starts with a low-cost audit that puts real numbers on the gap before you commit to anything bigger."
-        primaryCta={{ label: "Book Your Audit", href: "/contact" }}
+        primaryCta={{ label: "Book Your Audit", href: "/audit.html" }}
         secondaryCta={{ label: "See How We Work", href: "/about" }}
       />
 

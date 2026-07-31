@@ -21,7 +21,7 @@ export default function GTMHub() {
         eyebrow="GTM"
         title="Fix the offer, the positioning, and the pipeline."
         subtitle={gtmPillar.summary}
-        primaryCta={{ label: "Book Your Audit", href: "/contact" }}
+        primaryCta={{ label: "Book Your Audit", href: "/audit.html" }}
         secondaryCta={{ label: "See Who We Help", href: "#industries" }}
       />
 

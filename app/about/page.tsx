@@ -41,7 +41,7 @@ export default function AboutPage() {
         eyebrow="About Drifinity"
         title={'One brand. Two clear entry points. No vague "we do everything" pitch.'}
         subtitle="Drifinity exists because most growth-stage businesses know something's broken, but haven't pinned down whether it's how they grow or how they run — and most agencies aren't built to tell them the difference."
-        primaryCta={{ label: "Book Your Audit", href: "/contact" }}
+        primaryCta={{ label: "Book Your Audit", href: "/audit.html" }}
       />
 
       <section className="section-pad mx-auto max-w-7xl px-6 lg:px-10">

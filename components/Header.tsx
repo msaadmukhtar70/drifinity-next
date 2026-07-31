@@ -82,7 +82,7 @@ export default function Header() {
             About
           </Link>
           <Link
-            href="/contact"
+            href="/audit.html"
             className="cta-primary ml-3 !min-h-0 !px-5 !py-2.5"
           >
             Start the Audit <span aria-hidden>↗</span>
@@ -147,7 +147,7 @@ export default function Header() {
             About
           </Link>
           <Link
-            href="/contact"
+            href="/audit.html"
             className="cta-primary mt-4 flex w-full"
             onClick={() => setMobileOpen(false)}
           >

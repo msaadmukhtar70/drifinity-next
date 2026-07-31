@@ -17,7 +17,7 @@ export default function Footer() {
               Start with a low-cost audit — real numbers before any bigger
               commitment.
             </p>
-            <Link href="/contact" className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.1em] text-red hover:text-red-bright">
+            <Link href="/audit.html" className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.1em] text-red hover:text-red-bright">
               Book Your Audit <span aria-hidden>↗</span>
             </Link>
           </div>
